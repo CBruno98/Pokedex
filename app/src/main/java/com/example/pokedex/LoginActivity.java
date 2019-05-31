@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         mButtonLogin = (Button) findViewById(R.id.login_button);
         mButtonRegister = (Button) findViewById(R.id.register_button);
 
-        mButtonRegister.setOnClickListener(new View.OnClickListener() {
+        mButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String user = mLoginUsername.getText().toString().trim();
