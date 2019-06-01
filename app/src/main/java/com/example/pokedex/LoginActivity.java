@@ -33,9 +33,9 @@ public class LoginActivity extends AppCompatActivity {
                 Boolean res = db.checkUser(user, pwd);
                 if(res == true)
                 {
-                    //Intent HomePage = new Intent(LoginActivity.this,PokemonesList.class);
-                    //startActivity(HomePage);
                     Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, PokemonListActivity.class);
+                    startActivity(intent);
                 }
                 else
                 {

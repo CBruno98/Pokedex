@@ -6,6 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,41 +18,57 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class PokemonListActivity extends AppCompatActivity {
     private RecyclerView recyclerViewPokemon;
     private RecyclerViewAdapter adapterPokemon;
+    private RestAPI jsonPlaceHolderApi;
+    List<Pokemon> pokemons = new ArrayList<Pokemon>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.list_pokemon_rv);
 
         recyclerViewPokemon = findViewById(R.id.recycler_view);
         recyclerViewPokemon.setLayoutManager(new LinearLayoutManager(this));
 
-        /* adapterPokemon = new RecyclerViewAdapter(this, getPokemons());
-        recyclerViewPokemon.setAdapter(adapterPokemon);*/
-
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://pokeapi.co/api/v2/")
+                .baseUrl("https://pokeapi.co/api/v2/pokemon/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RestAPI api = retrofit.create(RestAPI.class);
 
-        Call<PokemonFeed> call = api.getData();
+        jsonPlaceHolderApi =retrofit.create(RestAPI.class);
 
-        call.enqueue(new Callback<PokemonFeed>() {
-            @Override
-            public void onResponse(Call<PokemonFeed> call, Response<PokemonFeed> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(PokemonListActivity.this,"F - Response",Toast.LENGTH_SHORT).show();
-                    return;
+        getPokemon();
+
+    }
+
+    public void getPokemon(){
+        for (int i=1;i<30;i++) {
+            Call<Pokemon> call = jsonPlaceHolderApi.getData(i);
+
+            call.enqueue(new Callback<Pokemon>() {
+                @Override
+                public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                    if (!response.isSuccessful()) {
+                        Toast.makeText(PokemonListActivity.this, "F - Connection", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Toast.makeText(PokemonListActivity.this, "F - Connection", Toast.LENGTH_SHORT).show();
+                    pokemons.add(response.body());
                 }
-                PokemonFeed data = response.body();
 
-            }
+                @Override
+                public void onFailure(Call<Pokemon> call, Throwable t) {
+                    Toast.makeText(PokemonListActivity.this, "F - Failure", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        Toast.makeText(PokemonListActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+        showData(pokemons);
+    }
 
-            @Override
-            public void onFailure(Call<PokemonFeed> call, Throwable t) {
-                Toast.makeText(PokemonListActivity.this,"F - Failure",Toast.LENGTH_SHORT).show();
-            }
-        });
-
+    public void showData(List<Pokemon> pokeList){
+        adapterPokemon = new RecyclerViewAdapter(PokemonListActivity.this, pokeList);
+        recyclerViewPokemon.setAdapter(adapterPokemon);
     }
 }

@@ -52,8 +52,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final String pokeName = pokemonsList.get(position).getName();
         holder.mPokemonName.setText(pokeName);
-        final int id = pokemonsList.get(position).getImgID();
-        holder.mPokemonImage.setImageResource(id);
+        //final int id = pokemonsList.get(position).getImgID();
+        //holder.mPokemonImage.setImageResource(id);
         /*holder.mParentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
