@@ -3,17 +3,6 @@ package com.example.pokedex;
 public class Sprites {
     private String back_default, back_female, back_shiny, back_shiny_female, front_default, front_female, front_shiny, front_shiny_female;
 
-    public Sprites(String back_default, String back_female, String back_shiny, String back_shiny_female, String front_default, String front_female, String front_shiny, String front_shiny_female) {
-        this.back_default = back_default;
-        this.back_female = back_female;
-        this.back_shiny = back_shiny;
-        this.back_shiny_female = back_shiny_female;
-        this.front_default = front_default;
-        this.front_female = front_female;
-        this.front_shiny = front_shiny;
-        this.front_shiny_female = front_shiny_female;
-    }
-
     public String getBack_default() {
         return back_default;
     }

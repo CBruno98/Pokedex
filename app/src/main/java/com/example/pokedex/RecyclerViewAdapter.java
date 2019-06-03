@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +54,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final String pokeName = pokemonsList.get(position).getName();
         holder.mPokemonName.setText(pokeName);
-        //final int id = pokemonsList.get(position).getImgID();
-        //holder.mPokemonImage.setImageResource(id);
+        Glide.with(mContext)
+                .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+(position+1)+".png")
+                .into(holder.mPokemonImage);
         /*holder.mParentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
