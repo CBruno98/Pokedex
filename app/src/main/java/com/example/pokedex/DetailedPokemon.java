@@ -17,17 +17,17 @@ public class DetailedPokemon extends AppCompatActivity {
         pokeName.setText(getIntent().getStringExtra("Name"));
 
         ImageView pokeImg = findViewById(R.id.img_detailed);
-        /*Glide.with(DetailedPokemon.this)
+        Glide.with(DetailedPokemon.this)
                 .load(getIntent().getStringExtra("Img"))
                 .into(pokeImg);
-*/
+
         TextView pokeExp = findViewById(R.id.exp_detailed);
-        pokeExp.setText(getIntent().getStringExtra("Exp"));
+        pokeExp.setText(String.valueOf(getIntent().getIntExtra("Exp",0)));
 
         TextView pokeHeight = findViewById(R.id.height_detailed);
-        pokeHeight.setText(getIntent().getStringExtra("Height"));
+        pokeHeight.setText(String.valueOf(getIntent().getIntExtra("Height",0)));
 
         TextView pokeWeight = findViewById(R.id.weight_detailed);
-        pokeWeight.setText(getIntent().getStringExtra("Weight"));
+        pokeWeight.setText(String.valueOf(getIntent().getIntExtra("Weight",0)));
     }
 }

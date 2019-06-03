@@ -20,8 +20,9 @@ public class PokemonListActivity extends AppCompatActivity {
     private RecyclerView recyclerViewPokemon;
     private RecyclerViewAdapter adapterPokemon;
     private RestAPI jsonPlaceHolderApi;
-    List<Pokemon> listOfPokemons = new ArrayList<Pokemon>();
+    private List<Pokemon> listOfPokemons = new ArrayList<Pokemon>();
     private Sprites SpriteObj;
+    private int cont=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +57,11 @@ public class PokemonListActivity extends AppCompatActivity {
                     }
                     Pokemon pokeObject = response.body();
                     listOfPokemons.add(pokeObject);
-                    recyclerViewPokemon.setAdapter(new RecyclerViewAdapter(PokemonListActivity.this,listOfPokemons));
+                    cont++;
+                    if (cont>=10) {recyclerViewPokemon.setAdapter(new RecyclerViewAdapter(PokemonListActivity.this, listOfPokemons));}
                     Log.v("Respuesta: ", pokeObject.getName()+ "   "+pokeObject.getHeight()+"   "+pokeObject.getWeight());
+                    Log.v("Cont: ", String.valueOf(cont));
+                    return;
                 }
 
                 @Override
@@ -70,8 +74,14 @@ public class PokemonListActivity extends AppCompatActivity {
 
     }
 
-    public void showData(List<Pokemon> pokeList){
-
-        recyclerViewPokemon.setAdapter(adapterPokemon);
+    public void getPokemons(Pokemon pokeObject){
+        if (cont < 10){
+            listOfPokemons.add(pokeObject);
+            cont++;
+        }
+        else {
+            listOfPokemons.add(pokeObject);
+            recyclerViewPokemon.setAdapter(new RecyclerViewAdapter(PokemonListActivity.this, listOfPokemons));
+        }
     }
 }

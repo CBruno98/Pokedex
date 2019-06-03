@@ -19,7 +19,7 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private List<Result> list;
     private Context context;
-    Pokemon poke;
+    private Pokemon poke;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -38,6 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public List<Pokemon> pokemonsList;
     private Context mContext;
 
+
     public RecyclerViewAdapter(Context context, List<Pokemon> pokemonList) {
         this.mContext = context;
         this.pokemonsList = pokemonList;
@@ -52,7 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         poke = pokemonsList.get(position);
         final String urlStr = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+(position+1)+".png";
         final String pokeName = poke.getName();
@@ -64,7 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DetailedPokemon.class);
-                intent.putExtra("Name", pokeName);
+                intent.putExtra("Name", poke.getName());
                 intent.putExtra("Exp", poke.getBase_experience());
                 intent.putExtra("Height", poke.getHeight());
                 intent.putExtra("Weight", poke.getWeight());
