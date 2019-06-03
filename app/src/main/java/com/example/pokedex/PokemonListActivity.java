@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,7 +20,8 @@ public class PokemonListActivity extends AppCompatActivity {
     private RecyclerView recyclerViewPokemon;
     private RecyclerViewAdapter adapterPokemon;
     private RestAPI jsonPlaceHolderApi;
-    List<Pokemon> pokemons = new ArrayList<Pokemon>();
+    List<Pokemon> listOfPokemons = new ArrayList<Pokemon>();
+    private Sprites SpriteObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,6 @@ public class PokemonListActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        RestAPI api = retrofit.create(RestAPI.class);
-
         jsonPlaceHolderApi =retrofit.create(RestAPI.class);
 
         getPokemon();
@@ -43,32 +43,40 @@ public class PokemonListActivity extends AppCompatActivity {
     }
 
     public void getPokemon(){
-        for (int i=1;i<30;i++) {
+        for (int i=1;i<10;i++) {
             Call<Pokemon> call = jsonPlaceHolderApi.getData(i);
-
+            Log.v("Conexion -", "Conectando para indice"+i);
             call.enqueue(new Callback<Pokemon>() {
                 @Override
                 public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
                     if (!response.isSuccessful()) {
-                        Toast.makeText(PokemonListActivity.this, "F - Connection", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PokemonListActivity.this, "F - Connection: ", Toast.LENGTH_SHORT).show();
+                        Log.v("////Error en indice///","F");
                         return;
                     }
-                    Toast.makeText(PokemonListActivity.this, "F - Connection", Toast.LENGTH_SHORT).show();
-                    pokemons.add(response.body());
+                    Pokemon pokeObject = response.body();
+                    listOfPokemons.add(pokeObject);
+                    Object obj = pokeObject.getSprites();
+                    Log.v("Sprite: ","xd" );
+                    recyclerViewPokemon.setAdapter(new RecyclerViewAdapter(PokemonListActivity.this,listOfPokemons));
+                    Log.v("Respuesta: ", pokeObject.getName()+ "   "+pokeObject.getHeight()+"   "+pokeObject.getWeight());
                 }
 
                 @Override
                 public void onFailure(Call<Pokemon> call, Throwable t) {
                     Toast.makeText(PokemonListActivity.this, "F - Failure", Toast.LENGTH_SHORT).show();
+                    Log.v("Error: ", "en CALLBACK");
                 }
             });
         }
         Toast.makeText(PokemonListActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-        showData(pokemons);
+        Log.v("ACABO EL FOR: ", "MSG");
+        Log.v("Pokemons: ", ""+listOfPokemons.toArray());
+        showData(listOfPokemons);
     }
 
     public void showData(List<Pokemon> pokeList){
-        adapterPokemon = new RecyclerViewAdapter(PokemonListActivity.this, pokeList);
+
         recyclerViewPokemon.setAdapter(adapterPokemon);
     }
 }
