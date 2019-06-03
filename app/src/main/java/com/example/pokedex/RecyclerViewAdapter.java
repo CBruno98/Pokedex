@@ -19,6 +19,7 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private List<Result> list;
     private Context context;
+    Pokemon poke;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -30,7 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             mPokemonName = (TextView) itemView.findViewById(R.id.pokemon_name_recycler);
             mPokemonImage = (ImageView) itemView.findViewById(R.id.pokemon_sprite_recycler);
-            mParentView = itemView.findViewById(R.id.recycler_view_parent);
+            mParentView = (LinearLayout) itemView.findViewById(R.id.recycler_view_parent);
         }
     }
 
@@ -51,23 +52,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final String pokeName = pokemonsList.get(position).getName();
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        poke = pokemonsList.get(position);
+        final String urlStr = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+(position+1)+".png";
+        final String pokeName = poke.getName();
         holder.mPokemonName.setText(pokeName);
         Glide.with(mContext)
-                .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+(position+1)+".png")
+                .load(urlStr)
                 .into(holder.mPokemonImage);
-        /*holder.mParentView.setOnClickListener(new View.OnClickListener() {
+        holder.mParentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, Viewer.class);
-                intent.putExtra("title", fightTV);
-                intent.putExtra("description", descTV);
-                intent.putExtra("img_id", id);
+                Intent intent = new Intent(mContext, DetailedPokemon.class);
+                intent.putExtra("Name", pokeName);
+                intent.putExtra("Exp", poke.getBase_experience());
+                intent.putExtra("Height", poke.getHeight());
+                intent.putExtra("Weight", poke.getWeight());
+                intent.putExtra("Img", urlStr);
                 mContext.startActivity(intent);
-
             }
-        });*/
+        });
     }
 
     @Override

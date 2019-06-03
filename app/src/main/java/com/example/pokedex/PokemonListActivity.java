@@ -56,8 +56,6 @@ public class PokemonListActivity extends AppCompatActivity {
                     }
                     Pokemon pokeObject = response.body();
                     listOfPokemons.add(pokeObject);
-                    Object obj = pokeObject.getSprites();
-                    Log.v("Sprite: ","xd" );
                     recyclerViewPokemon.setAdapter(new RecyclerViewAdapter(PokemonListActivity.this,listOfPokemons));
                     Log.v("Respuesta: ", pokeObject.getName()+ "   "+pokeObject.getHeight()+"   "+pokeObject.getWeight());
                 }
@@ -69,10 +67,7 @@ public class PokemonListActivity extends AppCompatActivity {
                 }
             });
         }
-        Toast.makeText(PokemonListActivity.this, "Successful", Toast.LENGTH_SHORT).show();
-        Log.v("ACABO EL FOR: ", "MSG");
-        Log.v("Pokemons: ", ""+listOfPokemons.toArray());
-        showData(listOfPokemons);
+
     }
 
     public void showData(List<Pokemon> pokeList){

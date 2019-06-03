@@ -25,6 +25,10 @@
             android:name=".PokemonListActivity"
             android:label="">
         </activity>
+        <activity
+            android:name=".DetailedPokemon"
+            android:label="">
+        </activity>
     </application>
 
 </manifest>
