@@ -20,6 +20,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Result> list;
     private Context context;
     private Pokemon poke;
+    private Result pokeR;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -37,11 +38,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public List<Pokemon> pokemonsList;
     private Context mContext;
+    public ArrayList<Result> pokemonArrayList;
 
 
     public RecyclerViewAdapter(Context context, List<Pokemon> pokemonList) {
         this.mContext = context;
         this.pokemonsList = pokemonList;
+    }
+    public RecyclerViewAdapter(Context context) {
+        this.mContext = context;
+        this.pokemonArrayList = new ArrayList<>();
     }
 
     @NonNull
@@ -53,23 +59,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        poke = pokemonsList.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        //poke = pokemonsList.get(position);
+        pokeR = pokemonArrayList.get(position);
         final String urlStr = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+(position+1)+".png";
-        final String pokeName = poke.getName();
+        final String pokeName = pokeR.getName();
         holder.mPokemonName.setText(pokeName);
+        /*final int baseExp = poke.getBase_experience();
+        final int height = poke.getHeight();
+        final int weight = poke.getWeight();*/
         Glide.with(mContext)
                 .load(urlStr)
                 .into(holder.mPokemonImage);
-        holder.mParentView.setOnClickListener(new View.OnClickListener() {
+        /*holder.mParentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DetailedPokemon.class);
                 intent.putExtra("Name", poke.getName());
-                intent.putExtra("Exp", poke.getBase_experience());
-                intent.putExtra("Height", poke.getHeight());
-                intent.putExtra("Weight", poke.getWeight());
+                intent.putExtra("Exp", baseExp);
+                intent.putExtra("Height", height);
+                intent.putExtra("Weight", weight);
                 intent.putExtra("Img", urlStr);
+                mContext.startActivity(intent);
+            }
+        });*/
+        holder.mParentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, DetailedPokemon.class);
+                intent.putExtra("position",position+1);
+                intent.putExtra("url", urlStr);
                 mContext.startActivity(intent);
             }
         });
@@ -77,6 +96,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return pokemonsList.size();
+        return pokemonArrayList.size();
+    }
+
+    public void agregarLista(ArrayList<Result> listaPokemon){
+        pokemonArrayList.addAll(listaPokemon);
+        notifyDataSetChanged();
     }
 }

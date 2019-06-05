@@ -23,6 +23,7 @@ public class PokemonListActivity extends AppCompatActivity {
     private List<Pokemon> listOfPokemons = new ArrayList<Pokemon>();
     private Sprites SpriteObj;
     private int cont=1;
+    Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,19 +33,23 @@ public class PokemonListActivity extends AppCompatActivity {
         recyclerViewPokemon = findViewById(R.id.recycler_view);
         recyclerViewPokemon.setLayoutManager(new LinearLayoutManager(this));
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://pokeapi.co/api/v2/pokemon/")
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://pokeapi.co/api/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        jsonPlaceHolderApi =retrofit.create(RestAPI.class);
+        adapterPokemon = new RecyclerViewAdapter(this);
+        recyclerViewPokemon.setAdapter(adapterPokemon);
+        //getPokemon(retrofit);
+        getData();
 
-        getPokemon();
+
 
     }
 
-    public void getPokemon(){
+    public void getPokemon(Retrofit retrofit){
         for (int i=1;i<10;i++) {
+            jsonPlaceHolderApi =retrofit.create(RestAPI.class);
             Call<Pokemon> call = jsonPlaceHolderApi.getData(i);
             Log.v("Conexion -", "Conectando para indice"+i);
             call.enqueue(new Callback<Pokemon>() {
@@ -83,5 +88,28 @@ public class PokemonListActivity extends AppCompatActivity {
             listOfPokemons.add(pokeObject);
             recyclerViewPokemon.setAdapter(new RecyclerViewAdapter(PokemonListActivity.this, listOfPokemons));
         }
+    }
+
+    public void getData(){
+        RestAPI serviceAPI = retrofit.create(RestAPI.class);
+        Call<PokemonFeed> respuestaPokemons = serviceAPI.obtenerListaPokemon();
+
+        respuestaPokemons.enqueue(new Callback<PokemonFeed>() {
+            @Override
+            public void onResponse(Call<PokemonFeed> call, Response<PokemonFeed> response) {
+                if (response.isSuccessful()) {
+                    PokemonFeed respuestaPokemon = response.body();
+                    ArrayList<Result> listaPokemon = respuestaPokemon.getResults();
+                    adapterPokemon.agregarLista(listaPokemon);
+                }else {
+                    Log.e("Error: ", "on Response " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PokemonFeed> call, Throwable t) {
+                Log.e("Error: ", "onFailure" + t.getMessage());
+            }
+        });
     }
 }

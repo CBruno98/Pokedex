@@ -17,9 +17,10 @@
         android:textSize="20sp"/>
     <ImageView
         android:id="@+id/img_detailed"
+        android:src="@drawable/background"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:padding="70dp"
+        android:padding="0dp"
         android:layout_gravity="center"
         />
     <LinearLayout
