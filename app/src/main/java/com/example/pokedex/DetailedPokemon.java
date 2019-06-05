@@ -43,9 +43,9 @@ public class DetailedPokemon extends AppCompatActivity {
                 if (response.isSuccessful()){
                     Pokemon pokemon = response.body();
                     pokeName.setText(pokemon.getName());
-                    pokeExp.setText(pokemon.getBase_experience());
-                    pokeHeight.setText(pokemon.getHeight());
-                    pokeWeight.setText(pokemon.getWeight());
+                    pokeExp.setText(String.valueOf(pokemon.getBase_experience()));
+                    pokeHeight.setText(String.valueOf(pokemon.getHeight()));
+                    pokeWeight.setText(String.valueOf(pokemon.getWeight()));
                     Glide.with(DetailedPokemon.this)
                             .load(getIntent().getStringExtra("url"))
                             .into(pokeImg);

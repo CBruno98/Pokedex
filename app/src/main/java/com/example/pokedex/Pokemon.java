@@ -3,14 +3,12 @@ package com.example.pokedex;
 public class Pokemon {
     private String name;
     private int base_experience, height, weight;
-    private Sprites sprites;
 
     public Pokemon(String name, int base_experience, int height, int weight, Sprites sprites) {
         this.name = name;
         this.base_experience = base_experience;
         this.height = height;
         this.weight = weight;
-        this.sprites = sprites;
     }
 
     public String getName() {
@@ -29,7 +27,4 @@ public class Pokemon {
         return weight;
     }
 
-    public Object getSprites() {
-        return sprites;
-    }
 }

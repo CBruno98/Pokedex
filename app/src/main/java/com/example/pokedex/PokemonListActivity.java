@@ -91,8 +91,8 @@ public class PokemonListActivity extends AppCompatActivity {
     }
 
     public void getData(){
-        RestAPI serviceAPI = retrofit.create(RestAPI.class);
-        Call<PokemonFeed> respuestaPokemons = serviceAPI.obtenerListaPokemon();
+        final RestAPI serviceAPI = retrofit.create(RestAPI.class);
+        final Call<PokemonFeed> respuestaPokemons = serviceAPI.obtenerListaPokemon();
 
         respuestaPokemons.enqueue(new Callback<PokemonFeed>() {
             @Override
@@ -101,6 +101,7 @@ public class PokemonListActivity extends AppCompatActivity {
                     PokemonFeed respuestaPokemon = response.body();
                     ArrayList<Result> listaPokemon = respuestaPokemon.getResults();
                     adapterPokemon.agregarLista(listaPokemon);
+                    respuestaPokemons.cancel();
                 }else {
                     Log.e("Error: ", "on Response " + response.errorBody());
                 }
