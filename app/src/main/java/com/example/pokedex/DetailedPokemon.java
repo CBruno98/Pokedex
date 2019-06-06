@@ -60,18 +60,5 @@ public class DetailedPokemon extends AppCompatActivity {
                 Log.e("Error: ", "onFailure" + t.getMessage());
             }
         });
-
-        /*
-        pokeName.setText(getIntent().getStringExtra("Name"));
-
-        Glide.with(DetailedPokemon.this)
-                .load(getIntent().getStringExtra("Img"))
-                .into(pokeImg);
-
-        pokeExp.setText(String.valueOf(getIntent().getIntExtra("Exp",0)));
-
-        pokeHeight.setText(String.valueOf(getIntent().getIntExtra("Height",0)));
-
-        pokeWeight.setText(String.valueOf(getIntent().getIntExtra("Weight",0)));*/
     }
 }

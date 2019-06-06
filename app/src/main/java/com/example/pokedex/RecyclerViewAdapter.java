@@ -60,29 +60,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        //poke = pokemonsList.get(position);
         pokeR = pokemonArrayList.get(position);
         final String urlStr = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+(position+1)+".png";
         final String pokeName = pokeR.getName();
         holder.mPokemonName.setText(pokeName);
-        /*final int baseExp = poke.getBase_experience();
-        final int height = poke.getHeight();
-        final int weight = poke.getWeight();*/
+
         Glide.with(mContext)
                 .load(urlStr)
                 .into(holder.mPokemonImage);
-        /*holder.mParentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailedPokemon.class);
-                intent.putExtra("Name", poke.getName());
-                intent.putExtra("Exp", baseExp);
-                intent.putExtra("Height", height);
-                intent.putExtra("Weight", weight);
-                intent.putExtra("Img", urlStr);
-                mContext.startActivity(intent);
-            }
-        });*/
+
         holder.mParentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

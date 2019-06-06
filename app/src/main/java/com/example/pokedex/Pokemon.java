@@ -4,7 +4,7 @@ public class Pokemon {
     private String name;
     private int base_experience, height, weight;
 
-    public Pokemon(String name, int base_experience, int height, int weight, Sprites sprites) {
+    public Pokemon(String name, int base_experience, int height, int weight) {
         this.name = name;
         this.base_experience = base_experience;
         this.height = height;
