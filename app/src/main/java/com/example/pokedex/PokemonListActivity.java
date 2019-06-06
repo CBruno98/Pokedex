@@ -38,9 +38,6 @@ public class PokemonListActivity extends AppCompatActivity {
         recyclerViewPokemon.setAdapter(adapterPokemon);
 
         getData();
-
-
-
     }
 
     public void getData(){
